@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">
+            html, body { height: 100%; margin: 0; padding: 0; }
+            #map { height: 100%; }
+        </style>
+    </head>
+    <body>
+
+        <div id="map"></div>
+
+        <script type="text/javascript">
+
+function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 3,
+        center: {lat: 47.61, lng: -122.34}
+    });
+
+    var markers = {
+        seattle: {
+            title:'Ongoing Private Instruction', 
+            lat: 47.61, 
+            lng: -122.34,
+            dates: "ongoing",
+            location_name: "Seattle, WA"
+        },
+
+        ramona: {
+            title: 'Ongoing Private Instruction',
+            lat: 33.064072,
+            lng: -116.717209,
+            dates: "ongoing",
+            location_name: "Poway/Ramona, CA"
+        }
+    };
+
+    var markers_arr = [
+        ["Seattle, WA", 47.606209, -122.332071, "Ongoing Private Instruction"],
+        ["Poway/Ramona, CA", 33.041360, -116.879255, "Ongoing Private Instruction"],
+        ["New York, NY", 40.712784, -74.005941, "Ongoing Private Instruction"],
+        ["Orange County, CA", 33.717471, -117.831143,"Sept. 10 - REFRESHER COURSE"],
+        ["Los Feliz, CA", 34.106331, -118.284820, "Sept 13 - MASTER CLASS"]
+    ];
+
+    var content_array = [];
+
+    //make content
+    for (var i = 0; i < markers_arr.length; i++) {
+        var content_string = 
+            '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">' + markers_arr[i][0] + '</h1>'+
+            '<div id="bodyContent">'+
+            '<p>'+markers_arr[i][3]+'</p>'+
+            '<p>Go to Website: P.E.T, <a href="http://www.gordontraining.com/parent-programs/p-e-t-workshops-for-parents/">click for more info</a> '+
+            '</div>'+
+            '</div>';
+        content_array.push(content_string);
+    };
+
+
+    var contentString = 
+            '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Vincent Lives Here</h1>'+
+            '<div id="bodyContent">'+
+            '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+            'sandstone rock formation in the southern part of the '+
+            'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+            'south west of the nearest large town, Alice Springs; 450&#160;km '+
+            '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+            'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+            'Aboriginal people of the area. It has many springs, waterholes, '+
+            'rock caves and ancient paintings. Uluru is listed as a World '+
+            'Heritage Site.</p>'+
+            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+            '(last visited June 22, 2009).</p>'+
+            '</div>'+
+            '</div>';
+
+
+
+    //creates info window object
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+    for (var i = 0; i<markers_arr.length; i++) {
+        var locations = markers_arr[i];
+        var marker = new google.maps.Marker({
+            position: {lat: locations[1], lng: locations[2]},
+            map: map
+        });
+
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent(content_array[i]);
+              infowindow.open(map, marker);
+            }
+        })(marker, i));
+    }
+  
+
+    //creates market object
+    // var marker = new google.maps.Marker({
+    //     position: uluru,
+    //     map: map,
+    //     title: 'Uluru (Ayers Rock)'
+    // });
+
+/*
+    //adds listner to marker
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });*/
+}
+
+        </script>
+
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHjVKa1Oaeg0JzI_LOMNWb16bL9hnAhjU&callback=initMap">
+        </script>
+
+    </body>
+</html>
